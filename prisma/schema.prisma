@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+// result = [0 - не подходит, 1 - ожидает сигнала по страте, 2 - сигнал отправлен, 3 - матч окончен]
+model Game {
+  id                    Int         @id @default(autoincrement())
+  dateMatch             String?
+  gameType              String
+  leagueId              String
+  leagueName            String
+  matchId               String
+  matchHomeTeamId       String
+  matchHomeTeamName     String
+  matchAwayTeamId       String
+  matchAwayTeamName     String
+  sendChat              Int         @default(0)
+  result                Int         @default(0)
+  sendMin               String      @default("0")
+  goalMin               String      @default("0")
+  chats                 Chat[]
+  countryName           String
+}
+
+model Chat {
+  id                    Int         @id @default(autoincrement())
+  game                  Game        @relation(fields: [gameId], references: [id])
+  gameId                Int         @unique
+  messageId             String
+}
