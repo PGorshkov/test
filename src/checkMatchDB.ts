@@ -10,8 +10,8 @@ import dayjs from "dayjs";
 const bot = new Telegraf('5266091556:AAGdTRPLUah5s-_JnQGfXWH9YES1z0PJlxI')
 
 async function main () {
-    // const dateMatch = dayjs().add(-1, 'day').format('YYYY-MM-DD')
-    const dateMatch = '2022-07-26'
+    const dateMatch = dayjs().format('YYYY-MM-DD')
+    // const dateMatch = '2022-07-26'
     const data = await prisma.game.findMany({
         where: {
             result: 3,
@@ -49,7 +49,7 @@ async function main () {
                     dateMatch: dataMatch[0].match_date
                 }
             })
-        } else {
+        } else if (dataMatch[0].match_status === 'Finished'){
             res.lose += 1
             await prisma.game.update({
                 where: {
