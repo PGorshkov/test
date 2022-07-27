@@ -4,19 +4,32 @@ import {getMatch} from "./service/game";
 const prisma = new PrismaClient()
 
 const idChat = 187067603
+// const TelegramBot = require('node-telegram-bot-api');
 import { Telegraf } from 'telegraf'
+
 import dayjs from "dayjs";
-
-const bot = new Telegraf('5266091556:AAGdTRPLUah5s-_JnQGfXWH9YES1z0PJlxI')
-
+const token = '5266091556:AAGdTRPLUah5s-_JnQGfXWH9YES1z0PJlxI';
+const bot = new Telegraf(token)
+// const bot = new TelegramBot(token, {polling: true});
+//
+// bot.on('message', (msg: any) => {
+//     const chatId = msg.chat.id;
+//
+//     // send a message to the chat acknowledging receipt of their message
+//     bot.sendMessage(chatId, 'Received your message');
+// });
+// bot.on('polling_error', (error: any) => {
+//     console.log(error);  // => 'EFATAL'
+// });
 async function main () {
     const dateMatchTo = dayjs().format('YYYY-MM-DD')
     const dateMatchFrom = dayjs().add(-1, 'day').format('YYYY-MM-DD')
-    const dateMatch = '2022-07-26'
+    const dateMatch = '2022-07-27'
     const data = await prisma.game.findMany({
         where: {
             result: 3,
-            dateMatch: { in: [dateMatchFrom, dateMatchTo]}
+            // dateMatch: { in: [dateMatchFrom, dateMatchTo]}
+            dateMatch
         }
     })
 
@@ -112,17 +125,20 @@ async function getLoseLeague () {
     // })
 
     const data = await prisma.game.groupBy({
-        by: ['leagueId'],
+        by: ['leagueId', 'leagueName', 'countryName'],
         where: {
             result: 3,
             goalMin: '0'
         },
         _count: {
-            leagueName: true,
+            leagueId: true,
         },
     })
 
     console.table(data)
 }
 
-main()
+
+
+// main()
+getLoseLeague()
