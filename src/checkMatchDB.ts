@@ -10,12 +10,13 @@ import dayjs from "dayjs";
 const bot = new Telegraf('5266091556:AAGdTRPLUah5s-_JnQGfXWH9YES1z0PJlxI')
 
 async function main () {
-    const dateMatch = dayjs().format('YYYY-MM-DD')
-    // const dateMatch = '2022-07-26'
+    const dateMatchTo = dayjs().format('YYYY-MM-DD')
+    const dateMatchFrom = dayjs().add(-1, 'day').format('YYYY-MM-DD')
+    const dateMatch = '2022-07-26'
     const data = await prisma.game.findMany({
         where: {
             result: 3,
-            dateMatch
+            dateMatch: { in: [dateMatchFrom, dateMatchTo]}
         }
     })
 
@@ -28,7 +29,16 @@ async function main () {
     }
     for (let i = 0; i < data.length; i++) {
         const match = data[i]
-        const dataMatch = await getMatch(match.matchId)
+        let dataMatch = []
+        try {
+
+            dataMatch = await getMatch(match.matchId)
+
+        } catch {
+            return
+        }
+        const matchData = dataMatch[0]
+        if (!matchData) return
         if (dataMatch[0].goalscorer.length) {
             const goal = parseInt(dataMatch[0].goalscorer[0].time)
             // console.log(match.matchId, goal)
@@ -87,17 +97,28 @@ async function removeGame () {
 }
 
 async function getLoseLeague () {
-    const data = await prisma.game.findMany({
+    // const data = await prisma.game.findMany({
+    //     where: {
+    //         result: 3,
+    //         goalMin: '0'
+    //     },
+    //     select: {
+    //         countryName: true,
+    //         leagueId: true,
+    //         leagueName: true,
+    //         matchHomeTeamName: true,
+    //         matchAwayTeamName: true,
+    //     },
+    // })
+
+    const data = await prisma.game.groupBy({
+        by: ['leagueId'],
         where: {
             result: 3,
             goalMin: '0'
         },
-        select: {
-            countryName: true,
-            leagueId: true,
+        _count: {
             leagueName: true,
-            matchHomeTeamName: true,
-            matchAwayTeamName: true,
         },
     })
 

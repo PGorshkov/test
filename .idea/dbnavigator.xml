@@ -33,20 +33,19 @@
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="884262bb-530b-4ed4-911a-593b506edc0e" object-ref="schemas/main/tables/Game" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="884262bb-530b-4ed4-911a-593b506edc0e" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="884262bb-530b-4ed4-911a-593b506edc0e" dataset="main.Game" active-filter-id="EMPTY_FILTER">
+    <filter-actions connection-id="884262bb-530b-4ed4-911a-593b506edc0e" dataset="main.Game" active-filter-id="dd0a30a5-bffd-42f2-b165-d84c01282d33">
       <filter id="36d7c738-e78b-40bd-b855-c6e1312296c6" name="GOAL_75" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="gameType" operator="=" value="GOAL_75" active="true" />
       </filter>
-      <filter id="dd0a30a5-bffd-42f2-b165-d84c01282d33" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
-        <condition column="result" operator="=" value="0" active="true" />
+      <filter id="dd0a30a5-bffd-42f2-b165-d84c01282d33" name="NoGoal" temporary="false" custom-name="true" type="basic" join-type="AND">
+        <condition column="result" operator="=" value="3" active="true" />
+        <condition column="goalMin" operator="=" value="0" active="true" />
       </filter>
       <filter id="fe699eeb-5ad5-45f4-801a-d5a83b348924" name="2022-07-26" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="dateMatch" operator="=" value="2022-07-26" active="true" />
