@@ -134,7 +134,7 @@ export async function check (matches: {[key: string]: any}[]) {
         // @TODO Half Time - сигналить на перерыве
         if (
             !!game
-            // && (parseInt(match.match_status) > 10 && parseInt(match.match_status) < 15)
+            && (parseInt(match.match_status) > 45 && parseInt(match.match_status) < 90)
         ) {
             if (match.match_hometeam_halftime_score === '0' && match.match_awayteam_halftime_score === '0') {
                 // console.log('match send', match)
